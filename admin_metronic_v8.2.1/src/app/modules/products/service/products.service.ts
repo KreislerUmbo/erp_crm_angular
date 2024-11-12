@@ -64,7 +64,6 @@ export class ProductsService {
     return this.http.post(URL, data, { headers: headers }).pipe(
       finalize(() => this.isLoadingSubject.next(false))
     );
-
   }
 
   /*

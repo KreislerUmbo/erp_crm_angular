@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Product;
 
+use App\Exports\Product\DownloadProduct;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Product\ProductCollection;
 use App\Http\Resources\Product\ProductResource;
@@ -16,6 +17,9 @@ use App\Models\Product\ProductWallet;
 use App\Models\Product\ProductWarehouse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ProductsExport;
+use App\Imports\ProductsImport;
 
 class ProductController extends Controller
 {
@@ -58,7 +62,7 @@ class ProductController extends Controller
         $units = Unit::where("state", 1)->get();
         $segment_clients = ClientSegment::where("state", 1)->get();
         $categories = ProductCategorie::where("state", 1)->get();
-       // $providers = Provider::where("state", 1)->get();
+        // $providers = Provider::where("state", 1)->get();
 
         return response()->json([
             "almacenes" => $almacenes,
@@ -66,7 +70,44 @@ class ProductController extends Controller
             "units" => $units,
             "segment_clients" => $segment_clients,
             "categories" => $categories,
-           // "providers"=>$providers,
+            // "providers"=>$providers,
+        ]);
+    }
+
+
+    public function export_products(Request $request)
+    {
+        $search = $request->get("search");
+        $product_categorie_id = $request->get("product_categorie_id");
+        $disponibilidad = $request->get("disponibilidad");
+        $tax_selected = $request->get("tax_selected");
+        //filtro especial
+        $sucursale_precio_multiple = $request->get("sucursale_precio_multiple");
+        $almacen_warehouse = $request->get("almacen_warehouse");
+        $segmentclient_precio_multiple = $request->get("segmentclient_precio_multiple");
+
+        $products = Product::filterAdvance(
+            $search,
+            $product_categorie_id,
+            $disponibilidad,
+            $tax_selected,
+            $sucursale_precio_multiple,
+            $almacen_warehouse,
+            $segmentclient_precio_multiple
+        )->orderBy("id", "desc")->get();
+        return Excel::download(new DownloadProduct($products), "productos_descargados.xlsx");
+    }
+
+    public function import_product(Request $request)
+    {
+        $request->validate([
+            "import_file" => 'required|file|mimes:xls,xlsx,csv'
+        ]);
+        $path=$request->file("import_file");
+
+        $data=Excel::import(new ProductsImport,$path);
+        return response()->json([
+            "message"=>200,
         ]);
     }
 
@@ -82,9 +123,12 @@ class ProductController extends Controller
         }
         //como hay una img  por guardar entonces hacemos
         if ($request->hasFile("product_imagen")) {
+            // Almacenar el archivo y obtener la ruta
             $path = Storage::putFile("products", $request->file("product_imagen"));
+            // Añadir la ruta al request
             $request->request->add(["imagen" => $path]);
         }
+
 
         $product = Product::create($request->all());
 

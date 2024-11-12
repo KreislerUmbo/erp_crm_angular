@@ -2,6 +2,14 @@ import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ProductsService } from '../service/products.service';
 import { ActivatedRoute } from '@angular/router';
+import { ProductWarehousesService } from '../service/product-warehouses.service';
+import { ProductWalletsService } from '../service/product-wallets.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EditWarehouseProductComponent } from '../warehouse/edit-warehouse-product/edit-warehouse-product.component';
+import { EditWalletPriceProductComponent } from '../wallet/edit-wallet-price-product/edit-wallet-price-product.component';
+import { data } from 'jquery';
+import { DeleteWarehouseProductComponent } from '../warehouse/delete-warehouse-product/delete-warehouse-product.component';
+import { DeleteWalletPriceProductComponent } from '../wallet/delete-wallet-price-product/delete-wallet-price-product.component';
 
 @Component({
   selector: 'app-edit-product',
@@ -15,7 +23,7 @@ export class EditProductComponent {
 
   title: string = '';
   imagen_product: any;
-  imagen_previsualiza: any = '/assets/media/svg/files/blank-image.svg';
+  imagen_previsualiza: any;
   description: string = '';
   price_general: number = 0;
   disponibilidad: string = '';
@@ -36,7 +44,7 @@ export class EditProductComponent {
   ancho: number = 0;
   alto: number = 0;
   largo: number = 0;
- 
+
   isLoading$: any;
 
   //SECCION ALMACEN
@@ -67,8 +75,10 @@ export class EditProductComponent {
   constructor(
     public toast: ToastrService,
     public productService: ProductsService,
-    public ActivedRoute: ActivatedRoute
-
+    public ActivedRoute: ActivatedRoute,
+    public productWarehouseService: ProductWarehousesService,
+    public productWalletsService: ProductWalletsService,
+    public modalService: NgbModal,
   ) {
 
   }
@@ -86,7 +96,7 @@ export class EditProductComponent {
 
       this.is_descount = this.PRODUCT_SELECTED.is_descount;
       this.title = this.PRODUCT_SELECTED.title;
-      this.imagen_previsualiza = this.PRODUCT_SELECTED.imagen_previsualiza;
+      this.imagen_previsualiza = this.PRODUCT_SELECTED.imagen;//aqui imagen viende del controller
       this.description = this.PRODUCT_SELECTED.description;
       this.price_general = this.PRODUCT_SELECTED.price_general;
       this.disponibilidad = this.PRODUCT_SELECTED.disponibilidad;
@@ -106,6 +116,9 @@ export class EditProductComponent {
       this.ancho = this.PRODUCT_SELECTED.ancho;
       this.alto = this.PRODUCT_SELECTED.alto;
       this.largo = this.PRODUCT_SELECTED.largo;
+
+      this.WAREHOUSES_PRODUCT = this.PRODUCT_SELECTED.warehouse;
+      this.WALLET_PRODUCTS = this.PRODUCT_SELECTED.wallets;
     });
 
     this.productService.configAll().subscribe((resp: any) => {
@@ -140,29 +153,66 @@ export class EditProductComponent {
       return;
     }
 
-    this.WAREHOUSES_PRODUCT.push({
-      unit: UNIT_SELECTED,
-      warehouse: WAREHOUSE_SELECTED,
-      quantity: this.cant_warehouse,
-    });
-    this.almacen_warehouse = '';
-    this.unit_warehouse = '';
-    this.cant_warehouse = 0;
+    let data = {
+      product_id: this.PRODUCT_ID,
+      unit_id: this.unit_warehouse,
+      warehouse_id: this.almacen_warehouse,
+      quantity: this.cant_warehouse
+    }
+
+    this.productWarehouseService.registerProductWarehouse(data).subscribe((resp: any) => {
+      this.WAREHOUSES_PRODUCT.push(resp.product_warehouse);
+      this.almacen_warehouse = ''
+      this.unit_warehouse = ''
+      this.cant_warehouse = 0
+      this.toast.success("EXITO", "La existencia de ese prOducto se agregó correctamente");
+      this.isLoadingProccess();
+    })
+    /*     unit: UNIT_SELECTED,
+        warehouse: WAREHOUSE_SELECTED,
+        quantity: this.cant_warehouse, */
     console.log(this.WAREHOUSES_PRODUCT);
   }
 
 
+  editWarehouse(WAREHOUSES_PROD: any) {
+    const modalRef = this.modalService.open(EditWarehouseProductComponent, { centered: true, size: 'md' });
+    modalRef.componentInstance.WAREHOUSES_PRODUCT = WAREHOUSES_PROD;
+    modalRef.componentInstance.UNITS = this.UNITS;
+    modalRef.componentInstance.WAREHOUSES = this.WAREHOUSES;
+    modalRef.componentInstance.WarehouseEdit.subscribe((wh_product: any) => {
+      let INDEX = this.WAREHOUSES_PRODUCT.findIndex((wh_prod: any) => wh_prod.id == WAREHOUSES_PROD.id);
+      if (INDEX != -1) {
+        this.WAREHOUSES_PRODUCT[INDEX] = wh_product;
+      }
+      this.isLoadingProccess();
+    })
+  }
+
+
   removeWarehouse(WAREHOUSES_PROD: any) {
-    //el objeto que quiero eliminar
-    //lista dednde se enuentra el objeto que quiero eliinar
-    let INDEX_WAREHOUSE = this.WAREHOUSES_PRODUCT.findIndex((wh_prod: any) => (wh_prod.unit.id == WAREHOUSES_PROD.unit.id)
-      && (wh_prod.warehouse.id == WAREHOUSES_PROD.warehouse.id));
-    //eliminamos el objeto
-    if (INDEX_WAREHOUSE != -1) {
-      this.WAREHOUSES_PRODUCT.splice(INDEX_WAREHOUSE, 1);
+    const modalRef = this.modalService.open(DeleteWarehouseProductComponent, { centered: true, size: 'md' });
+    modalRef.componentInstance.WAREHOUSES_PROD = WAREHOUSES_PROD;
 
-    }
+    modalRef.componentInstance.WarehouseDelete.subscribe((wh_product: any) => {
+      //el objeto que quiero eliminar
+      //lista dednde se enuentra el objeto que quiero eliinar
+      let INDEX = this.WAREHOUSES_PRODUCT.findIndex((wh_prod: any) => (wh_prod.id == WAREHOUSES_PROD.id));
+      //eliminamos el objeto
+      if (INDEX != -1) {
+        this.WAREHOUSES_PRODUCT.splice(INDEX, 1);
+      }
+      this.isLoadingProccess();
+    })
 
+     //el objeto que quiero eliminar
+/*       //lista dednde se enuentra el objeto que quiero eliinar
+      let INDEX_WAREHOUSE = this.WAREHOUSES_PRODUCT.findIndex((wh_prod: any) => (wh_prod.unit.id == WAREHOUSES_PROD.unit.id)
+        && (wh_prod.warehouse.id == WAREHOUSES_PROD.warehouse.id));
+      //eliminamos el objeto
+      if (INDEX_WAREHOUSE != -1) {
+        this.WAREHOUSES_PRODUCT.splice(INDEX_WAREHOUSE, 1);
+      } */
   }
 
 
@@ -184,30 +234,66 @@ export class EditProductComponent {
       (wp_precio_prod.segmentclient_precio_multiple == this.segmentclient_precio_multiple)
     );
     if (INDEX_PRECIO_MULTIPLE != -1) {
-      this.toast.error("VALIDACION", "La existencia de ese producto con la sucursal, tipo de ciente y la unidad ya existe");
+      this.toast.error("VALIDACION", "La existencia de ese producto con la sucursal, tipo de cliente y la unidad ya existe");
       return;
     }
+
+
     //agregando data
-    this.WALLET_PRODUCTS.push({
-      unit: UNIT_SELECTED,
-      sucursale: SUCURSALE_SELECTED,
-      client_segment: CLIENTSEGMENT_SELECTED,
-      precio: this.precio_multiple,
-      sucursale_precio_multiple: this.sucursale_precio_multiple, //caso que sucursale no sea obligatorio o campo en blanco
-      segmentclient_precio_multiple: this.segmentclient_precio_multiple,//caso que tipo cliente no sea obligatorio o campo en blanco
-
-    });
-    this.unit_precio_multiple = '';
-    this.sucursale_precio_multiple = '';
-    this.segmentclient_precio_multiple = '';
-    this.precio_multiple = 0;
-
+    let data = {
+      product_id: this.PRODUCT_ID,
+      unit_id: this.unit_precio_multiple,
+      client_segment_id: this.segmentclient_precio_multiple,
+      sucursal_id: this.sucursale_precio_multiple,
+      price_general: this.precio_multiple
+    }
+    this.productWalletsService.registerProductWallet(data).subscribe((resp: any) => {
+      console.log(resp);
+      this.WALLET_PRODUCTS.push(resp.product_wallet);
+      this.unit_precio_multiple = '';
+      this.sucursale_precio_multiple = '';
+      this.segmentclient_precio_multiple = '';
+      this.precio_multiple = 0;
+      this.toast.success("EXITO", "El precio de ese producto se agregó correctamente");
+      this.isLoadingProccess();
+    })
     console.log(this.WALLET_PRODUCTS);
   }
 
+  editProductWallet(WALLET_PRODUCT: any) {
+    const modalRef = this.modalService.open(EditWalletPriceProductComponent, { centered: true, size: 'lg' });
+    modalRef.componentInstance.WALLET_PRODUCT = WALLET_PRODUCT;
+    modalRef.componentInstance.UNITS = this.UNITS;
+    modalRef.componentInstance.SUCURSALES = this.SUCURSALES;
+    modalRef.componentInstance.CLIENT_SEGMENTS = this.CLIENT_SEGMENTS;
+    modalRef.componentInstance.WalletEdit.subscribe((wll_product: any) => {
+      let INDEX = this.WALLET_PRODUCTS.findIndex((wll_prod: any) => wll_prod.id == WALLET_PRODUCT.id);
+
+      if (INDEX != -1) {
+        this.WALLET_PRODUCTS[INDEX] = wll_product;
+      }
+      this.isLoadingProccess();
+    })
+  }
+
   removeMultiple_precio(WALLET_PRODUCT: any) {
-    //el objeto que quiero eliminar
-    //lista dednde se enuentra el objeto que quiero eliinar
+
+    const modalRef = this.modalService.open(DeleteWalletPriceProductComponent, { centered: true, size: 'md' });
+    modalRef.componentInstance.WALLET_PRODUCT = WALLET_PRODUCT;
+
+    modalRef.componentInstance.WalletDelete.subscribe((wll_product: any) => {
+      //el objeto que quiero eliminar
+      //lista dednde se enuentra el objeto que quiero eliinar
+      let INDEX = this.WALLET_PRODUCTS.findIndex((wll_prod: any) => (wll_prod.id == WALLET_PRODUCT.id));
+      //eliminamos el objeto
+      if (INDEX != -1) {
+        this.WALLET_PRODUCTS.splice(INDEX, 1);
+      }
+      this.isLoadingProccess();
+    })
+
+ /*    //el objeto que quiero eliminar
+    //lista donde se enuentra el objeto que quiero eliinar
     let INDEX_PRECIO_MULTIPLE = this.WALLET_PRODUCTS.findIndex((wp_precio_prod: any) => (wp_precio_prod.unit.id == WALLET_PRODUCT.unit.id)
       && (wp_precio_prod.sucursale_precio_multiple == WALLET_PRODUCT.sucursale_precio_multiple)
       && (wp_precio_prod.segmentclient_precio_multiple == WALLET_PRODUCT.segmentclient_precio_multiple));
@@ -215,7 +301,7 @@ export class EditProductComponent {
     if (INDEX_PRECIO_MULTIPLE != -1) {
       this.WALLET_PRODUCTS.splice(INDEX_PRECIO_MULTIPLE, 1);
 
-    }
+    } */
 
   }
 
@@ -277,15 +363,15 @@ export class EditProductComponent {
       return;
     }
 
-/*     if (this.WAREHOUSES_PRODUCT.length == 0) {
-      this.toast.error("VALIDACIO", "Necesitas ingresar al menos un registro de existencias de producto al almacen");
-      return;
-    }
-
-    if (this.WALLET_PRODUCTS.length == 0) {
-      this.toast.error("VALIDACIO", "Necesitas ingresar al menos un listdo de precio al  producto ");
-      return;
-    } */
+    /*     if (this.WAREHOUSES_PRODUCT.length == 0) {
+          this.toast.error("VALIDACIO", "Necesitas ingresar al menos un registro de existencias de producto al almacen");
+          return;
+        }
+    
+        if (this.WALLET_PRODUCTS.length == 0) {
+          this.toast.error("VALIDACIO", "Necesitas ingresar al menos un listdo de precio al  producto ");
+          return;
+        } */
 
 
 

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ProductsService } from '../service/products.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DeleteProductComponent } from '../delete-product/delete-product.component';
+import { URL_SERVICIOS } from 'src/app/config/config';
 
 @Component({
   selector: 'app-list-product',
@@ -165,6 +166,37 @@ export class ListProductComponent {
     })
   }
 
+  downloadProducts(){
 
+    let LINK="";
+    if(this.product_categorie_id){
+      LINK+="&product_categorie_id="+this.product_categorie_id;
+    }
+    if(this.disponibilidad){
+      LINK+="&disponibilidad="+this.disponibilidad;
+    }
+    if(this.tax_selected){
+      LINK+="&tax_selected="+this.tax_selected;
+    }
+    if(this.search){
+      LINK+="&search="+this.search;
+    }
+    if(this.sucursale_precio_multiple){
+      LINK+="&sucursale_precio_multiple="+this.sucursale_precio_multiple;
+    }
+    if(this.almacen_warehouse){
+      LINK+="&almacen_warehouse="+this.almacen_warehouse;
+    }
+    if(this.segmentclient_precio_multiple){
+      LINK+="&segmentclient_precio_multiple="+this.segmentclient_precio_multiple;
+    }
+
+
+    window.open(URL_SERVICIOS+"/excel/export-products?k=1"+LINK,"_blank");
+  }
+
+  importProducts(){
+    
+  }
 
 }

@@ -22,7 +22,7 @@ class ProductResource extends JsonResource
                 "id" => $this->resource->product_categorie->id,
                 "name" => $this->resource->product_categorie->name,
             ],
-            "imgen" => env("APP_URL") . "storage/" . $this->resource->imgen,
+            "imagen" => env("APP_URL") . "storage/" . $this->resource->imagen,
             "sku" => $this->resource->sku,
             "barcode" => $this->resource->barcode,
             "price_general" => $this->resource->price_general,

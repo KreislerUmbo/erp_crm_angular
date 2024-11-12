@@ -9,7 +9,7 @@
         <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3 ">
             <!--begin::Title-->
             <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">
-                Modificar Datos de Producto
+                Modificar Datos de Producto: # {{PRODUCT_SELECTED.title}}
             </h1>
             <!--end::Title-->
 
@@ -34,7 +34,7 @@
         <!--begin::Form-->
         <form id="kt_ecommerce_add_product_form"
             class="form d-flex flex-column flex-lg-row fv-plugins-bootstrap5 fv-plugins-framework"
-            data-kt-redirect="/metronic8/demo1/apps/ecommerce/catalog/products.html">
+            data-kt-redirect="https://preview.keenthemes.com//metronic8/demo1/apps/ecommerce/catalog/products.html">
             <!--begin::Aside column-->
             <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10"
                 data-select2-id="select2-data-132-4l53">
@@ -54,8 +54,7 @@
                     <div class="card-body text-center pt-0">
                         <!--begin::Image input-->
                         <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3"
-                            [ngStyle]="{'background-image': 'url('+imagen_previsualiza+')'}"
-                             data-kt-image-input="true">
+                            [ngStyle]="{'background-image': 'url('+imagen_previsualiza+')'}" data-kt-image-input="true">
                             <!--begin::Preview existing avatar-->
                             <div class="image-input-wrapper w-150px h-150px"></div>
                             <!--end::Preview existing avatar-->
@@ -69,12 +68,13 @@
                                     <span class="path2"></span>
                                 </i>
                                 <!--begin::Inputs-->
-                                <input type="file" name="avatar" accept=".png, .jpg, .jpeg"  (change)="processFile($event)"/>
-                                <input type="hidden" name="avatar_remove"/>
-                 <!--           <div *ngIf="imagen_previsualiza">
+                                <input type="file" name="avatar" accept=".png, .jpg, .jpeg"
+                                    (change)="processFile($event)" />
+                                <input type="hidden" name="avatar_remove" />
+                                <!--           <div *ngIf="imagen_previsualiza">
                                     <img [src]="imagen_previsualiza"  style="height: 100px;"  alt="">
                                 </div>  -->
-                                 <!--end::Inputs-->
+                                <!--end::Inputs-->
                             </label>
                             <!--end::Label-->
 
@@ -97,7 +97,8 @@
                         <!--end::Image input-->
 
                         <!--begin::Description-->
-                        <div class="text-muted fs-7">Configure la imagen en miniatura del producto. Sólo se aceptan archivos de imagen *.png, *.jpg y *.jpeg</div>
+                        <div class="text-muted fs-7">Configure la imagen en miniatura del producto. Sólo se aceptan
+                            archivos de imagen *.png, *.jpg y *.jpeg</div>
                         <!--end::Description-->
                     </div>
                     <!--end::Card body-->
@@ -227,7 +228,7 @@
 
                                         <!--begin::Input-->
                                         <input type="text" [(ngModel)]="title" name="title" class="form-control mb-2"
-                                            placeholder="Nombre del producto" >
+                                            placeholder="Nombre del producto">
                                         <!--end::Input-->
 
                                         <!--begin::Description-->
@@ -281,8 +282,7 @@
 
                                             <!--begin::Input-->
                                             <input type="number" [(ngModel)]="price_general" name="price_general"
-                                                class="form-control mb-2" placeholder="Precio Base del Producto"
-                                                >
+                                                class="form-control mb-2" placeholder="Precio Base del Producto">
                                             <!--end::Input-->
 
                                             <!--begin::Description-->
@@ -498,7 +498,7 @@
 
                                             <!--begin::Input-->
                                             <input type="text" [(ngModel)]="sku" name="sku" class="form-control mb-2"
-                                                placeholder="SKU Number"/>
+                                                placeholder="SKU Number" />
                                             <!--end::Input-->
 
                                             <!--begin::Description-->
@@ -512,7 +512,8 @@
 
                                             <!--begin::Input-->
                                             <div class="form-check form-check-custom form-check-solid mb-2">
-                                                <input  class="form-check-input" type="checkbox" (click)="isGratuito()" [checked]="is_gratuito == 2"/>
+                                                <input class="form-check-input" type="checkbox" (click)="isGratuito()"
+                                                    [checked]="is_gratuito == 2" />
                                                 <label class="form-check-label">
                                                     Si
                                                 </label>
@@ -555,8 +556,7 @@
 
                                             <!--begin::Input-->
                                             <input type="text" [(ngModel)]="umbral" name="umbral"
-                                                class="form-control mb-2" placeholder="Cantidad Minima para Alertar"
-                                                >
+                                                class="form-control mb-2" placeholder="Cantidad Minima para Alertar">
                                             <!--end::Input-->
 
                                             <!--begin::Description-->
@@ -633,8 +633,7 @@
                                             <!--begin::Input-->
                                             <div class="d-flex gap-3">
                                                 <input type="number" [(ngModel)]="cant_warehouse" name="cant_warehouse"
-                                                    class="form-control mb-2" placeholder="En el alamcen" 
-                                                    >
+                                                    class="form-control mb-2" placeholder="En el alamcen">
                                             </div>
                                             <!--end::Input-->
 
@@ -677,7 +676,7 @@
                                                              </td>-->
 
                                                                 <td>
-                                                                    <a href="#"
+                                                                    <a href="#" onclick="return false"
                                                                         class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">{{WAREHOUSES_PROD.unit.name}}</a>
                                                                     <!--                                                                     <span
                                                                         class="text-muted fw-semibold text-muted d-block fs-7">Code:
@@ -699,12 +698,13 @@
                                                                 </td>
                                                                 <td class="">
 
-                                                                    <!--                  <a href="#"
+                                                                    <a href="#" onclick="return false"
+                                                                    (click)="editWarehouse(WAREHOUSES_PROD)"
                                                                         class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                                                         <i class="ki-duotone ki-pencil fs-2"><span
                                                                                 class="path1"></span><span
                                                                                 class="path2"></span></i>
-                                                                    </a> -->
+                                                                    </a>
 
                                                                     <a href="#" onclick="return false"
                                                                         (click)="removeWarehouse(WAREHOUSES_PROD)"
@@ -737,7 +737,7 @@
                                 <!--begin::Card header-->
                                 <div class="card-header">
                                     <div class="card-title">
-                                        <h2>Asignar  Multiples Precios a los Sucursales x Tipo de Cliente</h2>
+                                        <h2>Asignar Multiples Precios a los Sucursales x Tipo de Cliente</h2>
                                     </div>
                                 </div>
                                 <!--end::Card header-->
@@ -842,7 +842,7 @@
                                                              </td>-->
 
                                                                 <td>
-                                                                    <a href="#"
+                                                                    <a href="#" onclick="return false"
                                                                         class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">{{WALLET_PRODUCT.unit.name}}</a>
                                                                     <!--                                                                 <span
                                                                         class="text-muted fw-semibold text-muted d-block fs-7">Code:
@@ -870,11 +870,12 @@
                                                                 </td>
                                                                 <td class="">
 
-                                                                    <!--                                                                     <a href="#"
+                                                                    <a href="#" onclick="return false"
+                                                                (click)="editProductWallet(WALLET_PRODUCT)"
                                                                         class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                                                         <i class="ki-duotone ki-pencil fs-2"><span
                                                                                 class="path1"></span><span
-                                                                                class="path2"></span></i> </a> -->
+                                                                                class="path2"></span></i> </a> 
 
                                                                     <a href="#" onclick="return false"
                                                                         (click)="removeMultiple_precio(WALLET_PRODUCT)"
@@ -919,37 +920,37 @@
                                         <!--begin::Input group-->
                                         <div class="fv-row row">
                                             <div class="col-3">
-                                            <!--begin::Label-->
-                                            <label class="form-label">Peso</label>
-                                            <!--end::Label-->
+                                                <!--begin::Label-->
+                                                <label class="form-label">Peso</label>
+                                                <!--end::Label-->
 
-                                            <!--begin::Editor-->
-                                            <input type="text" [(ngModel)]="peso" name="peso" class="form-control mb-2"
-                                                placeholder="Product weight" >
-                                            <!--end::Editor-->
+                                                <!--begin::Editor-->
+                                                <input type="text" [(ngModel)]="peso" name="peso"
+                                                    class="form-control mb-2" placeholder="Product weight">
+                                                <!--end::Editor-->
                                             </div>
                                             <div class="col-3">
-                                            <!--begin::Label-->
-                                            <label class="form-label">Ancho</label>
-                                            <!--end::Label-->
-                                            <input type="number" [(ngModel)]="ancho" name="ancho"
-                                            class="form-control mb-2" placeholder="Ancho (w)">
+                                                <!--begin::Label-->
+                                                <label class="form-label">Ancho</label>
+                                                <!--end::Label-->
+                                                <input type="number" [(ngModel)]="ancho" name="ancho"
+                                                    class="form-control mb-2" placeholder="Ancho (w)">
                                             </div>
 
                                             <div class="col-3">
-                                             <!--begin::Label-->
-                                            <label class="form-label">Alto</label>
-                                            <!--end::Label-->
+                                                <!--begin::Label-->
+                                                <label class="form-label">Alto</label>
+                                                <!--end::Label-->
                                                 <input type="number" [(ngModel)]="alto" name="alto"
-                                                class="form-control mb-2" placeholder="Alto (h)" >
+                                                    class="form-control mb-2" placeholder="Alto (h)">
                                             </div>
 
                                             <div class="col-3">
-                                            <!--begin::Label-->
-                                            <label class="form-label">Largo</label>
-                                            <!--end::Label-->
+                                                <!--begin::Label-->
+                                                <label class="form-label">Largo</label>
+                                                <!--end::Label-->
                                                 <input type="number" [(ngModel)]="largo" name="largo"
-                                                class="form-control mb-2" placeholder="Longitud (l)">
+                                                    class="form-control mb-2" placeholder="Longitud (l)">
                                             </div>
                                             <!--begin::Description-->
                                             <div class="text-muted fs-7">Introduce las dimensiones del producto en(cm)

@@ -45,11 +45,20 @@
                     <div class="text-muted fs-7">Tipo de Impuesto</div>
                     <!--end::Select2-->
                 </div>
-                <div class="col-1">
-                    <button type="button" class="btn btn-primary" *ngIf="element == false" (click)="mostrarBusqueda()">+</button>
-                    <button type="button" class="btn btn-primary" *ngIf="element == true" (click)="ocultarBusqueda()">-</button>
-                </div>
-                <div class="col-2 d-flex">
+                <div class="col-3 d-flex">
+                    <button type="button" class="btn btn-primary btn-sm mx-1" *ngIf="element == false"
+                        (click)="mostrarBusqueda()">+</button>
+                    <button type="button" class="btn btn-primary btn-sm mx-1" *ngIf="element == true"
+                        (click)="ocultarBusqueda()">-</button>
+
+                    <button class="btn btn-success btn-sm mx-1" (click)="downloadProducts()">
+                        <i class="ki-duotone ki-folder-down fs-2"><span class="path1"></span><span
+                                class="path2"></span></i>
+                    </button>
+                    <button class="btn btn-success btn-sm mx-1" (click)="importProducts()">
+                        <i class="ki-duotone ki-update-folder fs-2"><span class="path1"></span><span
+                                class="path2"></span></i>
+                    </button>
                     <button class="btn btn-primary btn-sm mx-1" (click)="listProducts()">
                         <i class="ki-duotone ki-magnifier fs-2"><span class="path1"></span><span
                                 class="path2"></span></i>
@@ -57,26 +66,25 @@
                     <button class="btn btn-primary btn-sm" (click)="resetlistProducts()">
                         <i class="ki-duotone ki-loading fs-2"><span class="path1"></span><span class="path2"></span></i>
                     </button>
+
                 </div>
             </div>
             <!--end::Search-->
-
-            <!--begin::Card toolbar-->
-        <div class="card-toolbar">
-            <!--begin::Toolbar-->
-            <div class="d-flex justify-content-end" data-kt-customer-table-toolbar="base">
-
-                <!--begin::Add customer-->
-                <button type="button" class="btn btn-primary" routerLink="/productos/register">
-                    + Add Product
-                </button>
-                <!--end::Add customer-->
-            </div>
-            <!--end::Toolbar-->
-        </div>
-        <!--end::Card toolbar-->
         </div>
         <!--begin::Card title-->
+                    <!--begin::Card toolbar-->
+                    <div class="card-toolbar">
+                        <!--begin::Toolbar-->
+                        <div class="d-flex justify-content-end" data-kt-customer-table-toolbar="base">
+                            <!--begin::Add customer-->
+                            <button type="button" class="btn btn-primary btn-sm mx-1" routerLink="/productos/register">
+                                + Product
+                            </button>
+                            <!--end::Add customer-->
+                        </div>
+                        <!--end::Toolbar-->
+                    </div>
+                    <!--end::Card toolbar-->
         <span class="spinner-border spinner-border-sm align-middle ms-2" *ngIf="isLoading$ | async"></span>
 
     </div>
@@ -84,7 +92,7 @@
 
     <!--begin::Card body-->
     <div class="card-body pt-0">
-         <!--begin::busqueda -->
+        <!--begin::busqueda -->
         <div class="row align-items-center" *ngIf="element == true">
             <div class="col-3" id="element">
                 <!--begin::Select2-->
@@ -98,23 +106,23 @@
                 <div class="text-muted fs-7">Sucursales</div>
             </div>
             <div class="col-3">
-                    <select class="form-select mb-2" [(ngModel)]="almacen_warehouse" name="almacen_warehouse">
+                <select class="form-select mb-2" [(ngModel)]="almacen_warehouse" name="almacen_warehouse">
                     <ng-container *ngFor="let WAREHOUSE of WAREHOUSES">
                         <option [value]="WAREHOUSE.id">{{WAREHOUSE.name}}</option>
                     </ng-container>
                 </select>
-                <div class="text-muted fs-7">Almacenes</div> 
+                <div class="text-muted fs-7">Almacenes</div>
             </div>
             <div class="col-3">
                 <select class="form-select mb-2" [(ngModel)]="segmentclient_precio_multiple"
-                name="segmentclient_precio_multiple">
-                <ng-container *ngFor="let CLIENT_SEGMENT of CLIENT_SEGMENTS">
-                    <option [value]="CLIENT_SEGMENT.id">{{CLIENT_SEGMENT.name}}</option>
-                </ng-container>
-            </select>
-            <!--begin::Description-->
-            <div class="text-muted fs-7">Seleccione un Segmento Cliente</div>
-            <!--end::Description-->
+                    name="segmentclient_precio_multiple">
+                    <ng-container *ngFor="let CLIENT_SEGMENT of CLIENT_SEGMENTS">
+                        <option [value]="CLIENT_SEGMENT.id">{{CLIENT_SEGMENT.name}}</option>
+                    </ng-container>
+                </select>
+                <!--begin::Description-->
+                <div class="text-muted fs-7">Seleccione un Segmento Cliente</div>
+                <!--end::Description-->
 
             </div>
             <div class="col-3"></div>
@@ -215,7 +223,8 @@
                                 </td>
 
                                 <td class="">
-                                    <a [routerLink]="['/productos/list/editar/'+PRODUCT.id]" routerLinkActive="router-link-active" 
+                                    <a [routerLink]="['/productos/list/editar/'+PRODUCT.id]"
+                                        routerLinkActive="router-link-active"
                                         class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                         <i class="ki-duotone ki-pencil fs-2"><span class="path1"></span><span
                                                 class="path2"></span></i>
