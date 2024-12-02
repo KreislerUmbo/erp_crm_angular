@@ -242,7 +242,7 @@ showMenu(['comisiones'])
     </div>
 
     <div class="menu-item" *ngIf="showMenu(['register_clientes','edit_clientes'])">
-      <a class="menu-link without-sub" routerLink="/builder" routerLinkActive="active">
+      <a class="menu-link without-sub" routerLink="/clientes/list" routerLinkActive="active">
         <span class="menu-icon">
           <app-keenicon name="badge" class="fs-2"></app-keenicon>
         </span>
@@ -273,7 +273,7 @@ showMenu(['comisiones'])
       </span>
       <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
         <div class="menu-item" *ngIf="showMenu(['register_proforma'])">
-          <a class="menu-link without-sub" routerLinkActive="active" routerLink="/apps/users">
+          <a class="menu-link without-sub" routerLinkActive="active" routerLink="/proformas/crear">
             <span class="menu-bullet">
               <span class="bullet bullet-dot"></span>
             </span>
@@ -282,7 +282,7 @@ showMenu(['comisiones'])
           </a>
         </div>
         <div class="menu-item" *ngIf="showMenu(['list_proforma'])">
-          <a class="menu-link without-sub" routerLinkActive="active" routerLink="/apps/roles">
+          <a class="menu-link without-sub" routerLinkActive="active" routerLink="/proformas/listado">
             <span class="menu-bullet">
               <span class="bullet bullet-dot"></span>
             </span>

@@ -12,7 +12,8 @@ export class CreateMethodPaymentComponent {
 
   @Output() MethodPagoC: EventEmitter<any> = new EventEmitter();
   @Input() METHOD_PAYMENTS: any = [];
-  
+
+  codigo: string = '';
   name: string = '';
   method_payment_id: string = '';
 
@@ -33,6 +34,7 @@ export class CreateMethodPaymentComponent {
 
 
   store() {
+
     if (!this.name) {
       this.toast.error("Validacion:", "EL NOMBRE DEL METODO DE PAGO ES REQUERIDO");
       return false;
@@ -40,6 +42,7 @@ export class CreateMethodPaymentComponent {
 
 
     let data = {
+      codigo: this.codigo,
       name: this.name,
       method_payment_id: this.method_payment_id,
     }

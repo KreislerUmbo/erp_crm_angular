@@ -15,6 +15,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 // #fake-start#
 import { FakeAPIService } from './_fake/fake-api.service';
 import { ToastrModule } from 'ngx-toastr';
+import { UppercaseDirective } from './uppercase.directive';
 // #fake-end#
 
 function appInitializer(authService: AuthService) {
@@ -27,7 +28,7 @@ function appInitializer(authService: AuthService) {
 }
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, UppercaseDirective],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

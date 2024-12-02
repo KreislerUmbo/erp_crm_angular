@@ -58,6 +58,13 @@
 
                             <th class="min-w-125px dt-orderable-asc dt-orderable-desc" data-dt-column="1" rowspan="1"
                                 colspan="1" aria-label="Customer Name: Activate to sort" tabindex="0"><span
+                                    class="dt-column-title" role="button">Código</span><span
+                                    class="dt-column-order"></span>
+                            </th>
+
+
+                            <th class="min-w-125px dt-orderable-asc dt-orderable-desc" data-dt-column="1" rowspan="1"
+                                colspan="1" aria-label="Customer Name: Activate to sort" tabindex="0"><span
                                     class="dt-column-title" role="button">Método de Pago</span><span
                                     class="dt-column-order"></span>
                             </th>
@@ -88,6 +95,9 @@
                         <ng-container *ngFor="let METODOPAGO of METODOPAGOS">
                             <tr>
                                 <td>
+                                    {{METODOPAGO.codigo}}
+                                </td>
+                                <td>
                                     {{METODOPAGO.name}}
                                 </td>
                                 <td>
@@ -106,15 +116,13 @@
                                     {{METODOPAGO.create_format_at}}
                                 </td>
                                 <td class="">
-                                    <a href="#" onclick="return false;"
-                                    (click)="editMethodPago(METODOPAGO)"
+                                    <a href="#" onclick="return false;" (click)="editMethodPago(METODOPAGO)"
                                         class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                         <i class="ki-duotone ki-pencil fs-2"><span class="path1"></span><span
                                                 class="path2"></span></i>
                                     </a>
 
-                                    <a href="#" onclick="return false;"
-                                    (click)="deleteMethodPago(METODOPAGO)"
+                                    <a href="#" onclick="return false;" (click)="deleteMethodPago(METODOPAGO)"
                                         class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
                                         <i class="ki-duotone ki-trash fs-2"><span class="path1"></span><span
                                                 class="path2"></span><span class="path3"></span><span

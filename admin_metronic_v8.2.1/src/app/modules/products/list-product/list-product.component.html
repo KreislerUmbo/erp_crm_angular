@@ -1,5 +1,18 @@
 <!--begin::Card-->
 <div class="card">
+    <!--begin::Card toolbar-->
+    <div class="card-toolbar">
+        <!--begin::Toolbar-->
+        <div class="d-flex justify-content-end pt-2" data-kt-customer-table-toolbar="base">
+            <!--begin::Add customer-->
+            <button type="button" class="btn btn-primary btn-sm " routerLink="/productos/register">
+                + Nuevo Producto
+            </button>
+            <!--end::Add customer-->
+        </div>
+        <!--end::Toolbar-->
+    </div>
+    <!--end::Card toolbar-->
     <!--begin::Card header-->
     <div class="card-header border-0 pt-6">
         <!--begin::Card title-->
@@ -36,7 +49,7 @@
                 </div>
                 <div class="col-2">
                     <!--begin::Select2-->
-                    <select class="form-select mb-2" [(ngModel)]="tax_selected" name="tax_selected">
+                    <select class="form-select mb-2 w-180px" [(ngModel)]="tax_selected" name="tax_selected">
                         <option data-select2-id="select2-data-17-625e"></option>
                         <option value="0">Libre de impuestos</option>
                         <option value="1">Bienes sujetos a impuestos</option>
@@ -71,20 +84,7 @@
             </div>
             <!--end::Search-->
         </div>
-        <!--begin::Card title-->
-                    <!--begin::Card toolbar-->
-                    <div class="card-toolbar">
-                        <!--begin::Toolbar-->
-                        <div class="d-flex justify-content-end" data-kt-customer-table-toolbar="base">
-                            <!--begin::Add customer-->
-                            <button type="button" class="btn btn-primary btn-sm mx-1" routerLink="/productos/register">
-                                + Product
-                            </button>
-                            <!--end::Add customer-->
-                        </div>
-                        <!--end::Toolbar-->
-                    </div>
-                    <!--end::Card toolbar-->
+
         <span class="spinner-border spinner-border-sm align-middle ms-2" *ngIf="isLoading$ | async"></span>
 
     </div>
@@ -92,7 +92,7 @@
 
     <!--begin::Card body-->
     <div class="card-body pt-0">
-        <!--begin::busqueda -->
+        <!--begin::busqueda mas abajo -->
         <div class="row align-items-center" *ngIf="element == true">
             <div class="col-3" id="element">
                 <!--begin::Select2-->
@@ -121,13 +121,23 @@
                     </ng-container>
                 </select>
                 <!--begin::Description-->
-                <div class="text-muted fs-7">Seleccione un Segmento Cliente</div>
+                <div class="text-muted fs-7">Tipo Segmento Cliente</div>
                 <!--end::Description-->
 
             </div>
-            <div class="col-3"></div>
+            <div class="col-3">
+                <select class="form-select mb-2" [(ngModel)]="state_stock" name="state_stock">
+                    <option data-select2-id="select2-data-17-625e"></option>
+                    <option value="1">Disponible</option>
+                    <option value="2">Por Agotar</option>
+                    <option value="3">Agotado</option>
+                </select>
+                <!--begin::Description-->
+                <div class="text-muted fs-7">Tipo Disponibilidad </div>
+                <!--end::Description-->
+            </div>
         </div>
-        <!--end::busqueda -->
+        <!--end::busqueda  mas abajo-->
         <!--begin::Table-->
         <div id="kt_customers_table_wrapper" class="dt-container dt-bootstrap5 dt-empty-footer">
             <div id="" class="table-responsive">
@@ -195,10 +205,18 @@
                                         </div>
 
                                         <div class="d-flex justify-content-start flex-column">
-                                            <a href="#"
+                                            <a href="#" onclick="return false;"
                                                 class="text-gray-900 fw-bold text-hover-primary mb-1 fs-6">{{PRODUCT.title}}</a>
                                             <span
-                                                class="text-muted fw-semibold text-muted d-block fs-7">{{PRODUCT.peso}}</span>
+                                                class="text-muted fw-semibold text-muted d-block fs-7">{{PRODUCT.peso}}
+                                            </span>
+                                            <span class="badge badge-light-primary"
+                                                *ngIf="PRODUCT.state_stock==1">Disponible</span>
+                                            <span class="badge badge-light-warning" *ngIf="PRODUCT.state_stock==2">Por
+                                                Agotar</span>
+                                            <span class="badge badge-light-danger"
+                                                *ngIf="PRODUCT.state_stock==3">Agotado</span>
+
                                         </div>
                                     </div>
                                 </td>
@@ -223,6 +241,7 @@
                                 </td>
 
                                 <td class="">
+
                                     <a [routerLink]="['/productos/list/editar/'+PRODUCT.id]"
                                         routerLinkActive="router-link-active"
                                         class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">

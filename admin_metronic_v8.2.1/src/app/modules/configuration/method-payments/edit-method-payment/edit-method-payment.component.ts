@@ -13,6 +13,8 @@ export class EditMethodPaymentComponent {
   @Output() MethodPagoE: EventEmitter<any> = new EventEmitter();
   @Input() METHOD_PAYMENTS_SELECTED:any;
   @Input() METHOD_PAYMENTS: any = [];
+
+  codigo: string = '';
   name: string = '';
   method_payment_id: string = '';
   state:number=1;
@@ -27,6 +29,7 @@ export class EditMethodPaymentComponent {
   }
 
   ngOnInit(): void {
+    this.codigo=this.METHOD_PAYMENTS_SELECTED.codigo;
     this.name=this.METHOD_PAYMENTS_SELECTED.name;
     this.method_payment_id=this.METHOD_PAYMENTS_SELECTED.method_payment_id;
     this.state=this.METHOD_PAYMENTS_SELECTED.state;
@@ -41,6 +44,7 @@ export class EditMethodPaymentComponent {
 
 
     let data = {
+      codigo: this.codigo,
       name: this.name,
       method_payment_id: this.method_payment_id,
       state:this.state,

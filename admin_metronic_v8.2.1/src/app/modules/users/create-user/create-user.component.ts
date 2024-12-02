@@ -19,6 +19,7 @@ export class CreateUserComponent {
   email: string = '';
   phone: string = '';
   role_id: string = '';
+  sucursale_id: string = '';
   gender: string = '';
   type_document: string = 'DNI';
   nro_document: string = '';
@@ -94,6 +95,7 @@ export class CreateUserComponent {
     formData.append("email", this.email);
     formData.append("phone", this.phone);
     formData.append("role_id", this.role_id);
+    formData.append("sucursale_id", this.sucursale_id);
     formData.append("gender", this.gender);
     formData.append("type_document", this.type_document);
     formData.append("nro_document", this.nro_document);

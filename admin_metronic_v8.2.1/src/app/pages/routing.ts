@@ -66,6 +66,18 @@ const Routing: Routes = [
     path: 'productos',
     loadChildren: () => import('../modules/products/products.module').then((m) => m.ProductsModule),
   },
+
+    //PARA Clientes
+    {
+      path: 'clientes',
+      loadChildren: () => import('../modules/clients/clients.module').then((m) => m.ClientsModule),
+    },
+    //PARA Profromas
+    {
+      path: 'proformas',
+      loadChildren: () => import('../modules/proformas/proformas.module').then((m) => m.ProformasModule),
+    },
+
   {
     path: '',
     redirectTo: '/dashboard',

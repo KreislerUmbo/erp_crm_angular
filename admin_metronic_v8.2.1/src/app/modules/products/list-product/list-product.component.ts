@@ -3,6 +3,7 @@ import { ProductsService } from '../service/products.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DeleteProductComponent } from '../delete-product/delete-product.component';
 import { URL_SERVICIOS } from 'src/app/config/config';
+import { ImportProductsComponent } from '../import-products/import-products.component';
 
 @Component({
   selector: 'app-list-product',
@@ -11,7 +12,7 @@ import { URL_SERVICIOS } from 'src/app/config/config';
 })
 export class ListProductComponent {
 
-  element:boolean=false;
+  element: boolean = false;
   search: string = '';
   PRODUCTS: any = [];
   CATEGORIES: any = [];
@@ -23,7 +24,7 @@ export class ListProductComponent {
   product_categorie_id: string = '';
   segmentclient_precio_multiple: string = '';
   almacen_warehouse: string = '';
-
+  state_stock:string='';
 
   disponibilidad = '';
   tax_selected = '';
@@ -62,7 +63,8 @@ export class ListProductComponent {
       //FILTRO ESPECIAL
       sucursale_precio_multiple: this.sucursale_precio_multiple,
       almacen_warehouse: this.almacen_warehouse,
-      segmentclient_precio_multiple:this.segmentclient_precio_multiple
+      segmentclient_precio_multiple: this.segmentclient_precio_multiple,
+      state_stock:this.state_stock,
     }
 
     this.productService.listProducts(page, data).subscribe((resp: any) => {
@@ -78,9 +80,9 @@ export class ListProductComponent {
       this.disponibilidad = '',
       this.tax_selected = '',
       this.search = '',
-      this.sucursale_precio_multiple= '',
-      this.almacen_warehouse= '',
-      this.segmentclient_precio_multiple= '',
+      this.sucursale_precio_multiple = '',
+      this.almacen_warehouse = '',
+      this.segmentclient_precio_multiple = '',
       this.listProducts();
   }
 
@@ -103,7 +105,7 @@ export class ListProductComponent {
         break;
 
       case 2:
-        TEXTO = "NO vender los prodcutos sin stock";
+        TEXTO = "NO vender los productos sin stock";
         break;
 
       case 3:
@@ -166,37 +168,43 @@ export class ListProductComponent {
     })
   }
 
-  downloadProducts(){
+  downloadProducts() {
 
-    let LINK="";
-    if(this.product_categorie_id){
-      LINK+="&product_categorie_id="+this.product_categorie_id;
+    let LINK = "";
+    if (this.product_categorie_id) {
+      LINK += "&product_categorie_id=" + this.product_categorie_id;
     }
-    if(this.disponibilidad){
-      LINK+="&disponibilidad="+this.disponibilidad;
+    if (this.disponibilidad) {
+      LINK += "&disponibilidad=" + this.disponibilidad;
     }
-    if(this.tax_selected){
-      LINK+="&tax_selected="+this.tax_selected;
+    if (this.tax_selected) {
+      LINK += "&tax_selected=" + this.tax_selected;
     }
-    if(this.search){
-      LINK+="&search="+this.search;
+    if (this.search) {
+      LINK += "&search=" + this.search;
     }
-    if(this.sucursale_precio_multiple){
-      LINK+="&sucursale_precio_multiple="+this.sucursale_precio_multiple;
+    if (this.sucursale_precio_multiple) {
+      LINK += "&sucursale_precio_multiple=" + this.sucursale_precio_multiple;
     }
-    if(this.almacen_warehouse){
-      LINK+="&almacen_warehouse="+this.almacen_warehouse;
+    if (this.almacen_warehouse) {
+      LINK += "&almacen_warehouse=" + this.almacen_warehouse;
     }
-    if(this.segmentclient_precio_multiple){
-      LINK+="&segmentclient_precio_multiple="+this.segmentclient_precio_multiple;
+    if (this.segmentclient_precio_multiple) {
+      LINK += "&segmentclient_precio_multiple=" + this.segmentclient_precio_multiple;
+    }
+    if (this.state_stock) {
+      LINK += "&state_stock=" + this.state_stock;
     }
 
 
-    window.open(URL_SERVICIOS+"/excel/export-products?k=1"+LINK,"_blank");
+    window.open(URL_SERVICIOS + "/excel/export-products?k=1" + LINK, "_blank");
   }
 
-  importProducts(){
-    
+  importProducts() {
+    const modalRef = this.modalService.open(ImportProductsComponent, { centered: true, size: 'md' });
+    modalRef.componentInstance.ImportProductExcel.subscribe((prod: any) => {
+      this.listProducts();
+    })
   }
 
 }
