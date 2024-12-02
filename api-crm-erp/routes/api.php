@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Configuration\ClientSegmentController;
 use App\Http\Controllers\Configuration\MethodPaymentController;
 use App\Http\Controllers\Configuration\ProductCategorieController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Configuration\WarehouseController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Product\ProductWalletController;
 use App\Http\Controllers\Product\ProductwarehouseController;
+use App\Http\Controllers\Proforma\ProformaController;
 use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\UserAccessController;
 use Illuminate\Http\Request;
@@ -78,7 +80,17 @@ Route::group([
 
     Route::resource("product_wallets",ProductWalletController::class);
     Route::resource("product_warehouses",ProductwarehouseController::class);
+
+    Route::post("/clients/index",[ClientController::class,'index']);
+    Route::post("/clients/import",[ClientController::class,'import_clients']);
+    Route::get("/clients/config",[ClientController::class,'config']);
+    Route::resource("clients",ClientController::class);
+
+    Route::get("/proformas/search-clients",[ProformaController::class,'search_clients']);
+    Route::resource('proformas',ProformaController ::class);
+
     
 });
 
 Route::get("excel/export-products",[ProductController::class,"export_products"]);
+Route::get("excel/export-clients",[ClientController::class,"export_clients"]);
