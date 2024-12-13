@@ -87,27 +87,31 @@
                         <div class="card-header" style="display: block;">
 
                             <div class="row justify-content-between">
-                                <div class="col-3">
+                                <div class="col-6 d-flex align-items-center">
                                     <h2 class="d-flex align-items-center"><i class="ki-duotone ki-user fs-2"><span
                                                 class="path1"></span><span class="path2"></span></i>Cliente :</h2>
+                                    <small class="mx-2">{{CLIENT_SELECTED ? CLIENT_SELECTED.client_segment.name : 'No ha
+                                        seleccionado un cliente'}}</small>
                                 </div>
                                 <div class="col-5">
-                                    <button class="btn btn-icon btn-primary" (click)="searchClients()"  placement="top-start" ngbTooltip="Buscar">
-                                        <i class="ki-duotone ki-people fs-2"><span class="path1"></span><span
+                                    <button class="btn btn-icon btn-primary" (click)="searchClients()"
+                                        placement="top-start" ngbTooltip="Buscar Cliente">
+                                        <i class="ki-solid ki-parcel-tracking fs-2"><span class="path3"></span><span
+                                                class="path3"></span></i>
+                                    </button>
+                                    <button class="btn btn-icon btn-danger mx-1" (click)="createClientPerson()"
+                                        placement="top-start" ngbTooltip="Crear Nuevo Cliente Tipo Persona">
+                                        <i class="ki-solid ki-user-edit fs-2"><span class="path2"></span><span
                                                 class="path2"></span></i>
                                     </button>
-                                    <button class="btn btn-icon btn-danger mx-1"  (click)="createClientPerson()"   placement="top-start"
-                                        ngbTooltip="Buscar">
-                                        <i class="ki-duotone ki-truck fs-2"><span class="path1"></span><span
+                                    <button class="btn btn-icon btn-warning" (click)="createClientCompany()"
+                                        placement="top-start" ngbTooltip="Crear Nuevo Cliente Tipo Empresa">
+                                        <i class="ki-solid ki-truck fs-2"><span class="path2"></span><span
                                                 class="path2"></span></i>
                                     </button>
-                                    <button class="btn btn-icon btn-warning"  (click)="searchClientCompany()"  placement="top-start" ngbTooltip="Buscar">
-                                        <i class="ki-duotone ki-truck fs-2"><span class="path1"></span><span
-                                                class="path2"></span></i>
-                                    </button>
-                                    <button class="btn btn-icon btn-dark mx-1" placement="top-start"
-                                        ngbTooltip="Buscar">
-                                        <i class="ki-duotone ki-loading fs-2"><span class="path1"></span><span
+                                    <button class="btn btn-icon btn-dark mx-1" (click)="resetClient()"
+                                        placement="top-start" ngbTooltip="Limpiar Campos">
+                                        <i class="ki-solid ki-eraser fs-2"><span class="path2"></span><span
                                                 class="path2"></span></i>
                                     </button>
                                 </div>
@@ -126,8 +130,9 @@
                                     <!--end::Label-->
 
                                     <!--begin::Input-->
-                                    <input type="text" (keyup.enter)="searchClients()" [(ngModel)]="nro_document" name="nro_document"
-                                        class="form-control mb-2" placeholder="N° DOCUMENTO" value="">
+                                    <input type="text" (keyup.enter)="searchClients()" [(ngModel)]="nro_document"
+                                        name="nro_document" class="form-control mb-2" placeholder="N° DOCUMENTO"
+                                        value="">
                                     <!--end::Input-->
                                 </div>
                                 <div class="col-4">
@@ -136,8 +141,9 @@
                                     <!--end::Label-->
 
                                     <!--begin::Input-->
-                                    <input type="text" (keyup.enter)="searchClients()" [(ngModel)]="full_name" name="full_name"
-                                        class="form-control mb-2" placeholder="NOMBRE DEL CLIENTE" value="">
+                                    <input type="text" (keyup.enter)="searchClients()" [(ngModel)]="full_name"
+                                        name="full_name" class="form-control mb-2" placeholder="NOMBRE DEL CLIENTE"
+                                        value="">
                                     <!--end::Input-->
                                 </div>
                                 <div class="col-4">
@@ -146,8 +152,8 @@
                                     <!--end::Label-->
 
                                     <!--begin::Input-->
-                                    <input type="text" (keyup.enter)="searchClients()" [(ngModel)]="phone" name="phone" class="form-control mb-2"
-                                        placeholder="N° TELEFONO" value="">
+                                    <input type="text" (keyup.enter)="searchClients()" [(ngModel)]="phone" name="phone"
+                                        class="form-control mb-2" placeholder="N° TELEFONO" value="">
                                     <!--end::Input-->
                                 </div>
                             </div>
@@ -163,26 +169,35 @@
                         <!--begin::Card header-->
                         <div class="card-header" style="display: block;">
                             <div class="row justify-content-between">
-                                <div class="col-3">
+                                <div class="col-8 d-flex align-items-center">
                                     <h2 class="d-flex align-items-center">
                                         <i class="ki-duotone ki-delivery-door text-gray-900 fs-2tx"><span
                                                 class="path1"></span><span class="path2"></span><span
                                                 class="path3"></span><span class="path4"></span></i>
 
-                                        Products
+                                        Products :
                                     </h2>
+                                    <small class="mx-2">{{PRODUCT_SELECTED ? PRODUCT_SELECTED.product_categorie.name :
+                                        'NO hay producto seleccionado'}}</small>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-4">
 
-                                    <button class="btn btn-icon btn-success" placement="top-start" ngbTooltip="Buscar">
-                                        <i class="ki-duotone ki-people fs-2"><span class="path1"></span><span
+                                    <button class="btn btn-icon btn-primary" (click)="searchProducts()"
+                                        placement="top-start" ngbTooltip="Buscar Producto">
+                                        <i class="ki-solid ki-parcel-tracking fs-2"><span class="path2"></span><span
                                                 class="path2"></span></i>
                                     </button>
 
-                                    <button class="btn btn-icon btn-dark mx-1" placement="top-start"
+                                    <button class="btn btn-icon btn-dark mx-1" placement="top-start" (click)="resetProduct()"
                                         ngbTooltip="Limpiar">
-                                        <i class="ki-duotone ki-loading fs-2"><span class="path1"></span><span
+                                        <i class="ki-solid ki-eraser fs-2"><span class="path2"></span><span
                                                 class="path2"></span></i>
+                                    </button>
+
+                                    <button class="btn btn-icon btn-success mx-1" placement="top-start" (click)="addProduct()"
+                                        ngbTooltip="Agregar">
+                                        <i class="ki-duotone ki-plus-square fs-2"><span class="path1"></span><span
+                                                class="path3"></span></i>
                                     </button>
 
                                 </div>
@@ -197,53 +212,91 @@
                         <div class="card-body pt-0">
                             <div class="d-flex flex-column gap-10">
 
-
-
                                 <div id="kt_ecommerce_edit_order_product_table_wrapper"
                                     class="dt-container dt-bootstrap5 dt-empty-footer">
 
                                     <div id="" class="row">
                                         <div class="col-6">
+                                            <small> Producto</small>
                                             <div class="d-flex align-items-center position-relative mb-n7 ">
                                                 <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4"><span
                                                         class="path1"></span><span class="path2"></span></i> <input
                                                     type="text" data-kt-ecommerce-edit-order-filter="search"
+                                                    name="search_product" [(ngModel)]="search_product"
+                                                    (keyup.enter)="searchProducts()"
                                                     class="form-control form-control-solid  ps-12"
                                                     placeholder="Buscar Producto">
                                             </div>
                                         </div>
                                         <div class="col-3">
+                                            <small>Cantidad</small>
                                             <!--begin::Input-->
                                             <input type="number" [(ngModel)]="cantidad" name="cantidad"
                                                 class="form-control mb-2" placeholder="Cantidad" value="">
                                             <!--end::Input-->
+
                                         </div>
 
                                         <div class="col-3">
+                                            <small>Precio del Producto</small>
                                             <!--begin::Input-->
                                             <input type="number" [(ngModel)]="price" name="price"
                                                 class="form-control mb-2" placeholder="Precio" value="">
                                             <!--end::Input-->
+
                                         </div>
                                         <div class="col-3">
-                                            <select class="form-control form-select-solid fw-bolder" name="categorie"
-                                                placeholder="Selec. Unidad">
+                                            <select class="form-control form-select-solid fw-bolder"
+                                                name="unidad_product" [(ngModel)]="unidad_product"
+                                                placeholder="Selec. Unidad" (change)="changeUnitProduct($event)"
+                                                *ngIf="!loadUnidad">
+
                                                 <option value="">Selec. Unidad</option>
+
+                                                <ng-container *ngIf="PRODUCT_SELECTED">
+                                                    <ng-container *ngFor="let unit of PRODUCT_SELECTED.units">
+                                                        <option [value]="unit.id">{{unit.name}}</option>
+                                                    </ng-container>
+                                                </ng-container>
                                             </select>
                                         </div>
 
                                         <div class="col-3">
-                                            <select class="form-control form-select-solid fw-bolder" name="categorie"
-                                                placeholder="Selec. Almacen">
+                                            <select class="form-control form-select-solid fw-bolder"
+                                                name="almacen_product" [(ngModel)]="almacen_product"
+                                                placeholder="Seleccione un Almacen">
                                                 <option value="">Selec. Almacen</option>
+                                                <ng-container *ngFor="let almacen of warehouses_product">
+                                                    <option [value]="almacen.id">{{almacen.warehouse.name}}
+                                                        ({{almacen.quantity}})</option>
+                                                </ng-container>
                                             </select>
                                         </div>
                                         <div class="col-6">
                                             <div class="d-flex flex-column mb-8">
                                                 <label class="fs-6 fw-semibold mb-2">Nota</label>
                                                 <textarea class="form-control form-control-solid" rows="3   "
-                                                    name="target_details" placeholder="Nota"></textarea>
+                                                    name="description_product" placeholder="Nota"></textarea>
                                             </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <span *ngIf="unidad_product && warehouses_product.length==0"
+                                                class="text-danger">No hay de esa unidad disponible en ninguna
+                                                sucursal</span>
+                                            <br>
+                                            <span
+                                                *ngIf="unidad_product && warehouses_product.length > 0 && exist_warehouse.length==0"
+                                                class="text-danger">No hay de esa unidad disponible en nuestra
+                                                sucursal</span>
+                                        </div>
+                                        <div class="col-4 ngIf=PRODUCT_SELECTED && PRODUCT_SELECTED.is_descount==2">
+                                            <small>Descuento del Producto</small>
+                                            <!--begin::Input    (keyup)="verifiedDiscount()"-->
+                                            <input type="number" #discount [(ngModel)]="amount_discount"
+                                                name="amount_discount" class="form-control mb-2" placeholder="Descuento"
+                                                value="">
+                                            <!--end::Input-->
+
                                         </div>
                                     </div>
                                 </div>
@@ -252,10 +305,25 @@
 
                                 <div>
                                     <div class="fw-bold fs-4">
-                                        Total Cost: $
-                                        <span id="kt_ecommerce_edit_order_total_price">
-                                            0.00
+                                        Costo Total :
+                                        <span id="kt_ecommerce_edit_order_total_price" *ngIf="PRODUCT_SELECTED">
+                                            {{(((price - amount_discount) +
+                                            (price-amount_discount)*(PRODUCT_SELECTED.importe_iva*0.01))*cantidad)}}
                                         </span>
+                                        <span id="kt_ecommerce_edit_order_total_price" *ngIf="!PRODUCT_SELECTED">
+                                            0.00
+                                        </span>PEN
+                                        <br>
+                                        Subtotal: {{price - amount_discount}} PEN
+                                        <ng-container *ngIf="PRODUCT_SELECTED">
+                                            <br>
+                                            Impuesto : {{(price - amount_discount)*(PRODUCT_SELECTED.importe_iva*0.01)}}
+                                        </ng-container>
+                                        <ng-container *ngIf="!PRODUCT_SELECTED">
+                                            <br>
+                                            Impuesto : 0 PEN
+                                        </ng-container>
+
                                     </div>
                                 </div>
 
@@ -271,7 +339,7 @@
                             <div class="row justify-content-between">
                                 <div class="col-7">
                                     <h2 class="d-flex align-items-center">
-                                        <i class="ki-duotone ki-delivery-geolocation text-gray-900 fs-2tx"><span
+                                        <i class="ki-duotone ki-questionnaire-tablet text-gray-900 fs-2tx"><span
                                                 class="path1"></span><span class="path2"></span><span
                                                 class="path3"></span><span class="path4"></span><span
                                                 class="path5"></span></i>
@@ -300,8 +368,8 @@
                                                     <th class="min-w-140px">Unidad</th>
                                                     <th class="min-w-120px">Cant.</th>
                                                     <th class="min-w-120px">Precio Unit</th>
-                                                    <!--      <th class="min-w-120px">SubTotal</th> -->
-                                                    <th class="min-w-120px">SubTotal</th>
+                                                    <th class="min-w-120px">SubTotal</th> 
+                                                    <th class="min-w-120px">Total</th>
                                                     <th class="min-w-100px text-end">Actions</th>
                                                 </tr>
                                             </thead>
@@ -309,55 +377,56 @@
 
                                             <!--begin::Table body-->
                                             <tbody>
+                                                <ng-container *ngFor="let DETAIL_PROFOR of DETAIL_PROFORMAS; let i=index">
                                                 <tr>
                                                     <td>
-                                                        <a href="#"
-                                                            class="text-gray-900 fw-bold text-hover-primary fs-6">Bomba
-                                                            de agua Suzuki Swift 2014-2017</a>
+                                                        <a href="#" onclick="return false"
+                                                            class="text-gray-900 fw-bold text-hover-primary fs-6">
+                                                           {{DETAIL_PROFOR.product.title}}</a>
                                                     </td>
 
                                                     <td>
-                                                        <a href="#"
-                                                            class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">Caja</a>
+<!--                                                         <a href="#"  onclick="return false"
+                                                            class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">UNIDAD: </a> -->
                                                         <span
-                                                            class="text-muted fw-semibold text-muted d-block fs-7">Unidad</span>
+                                                            class="text-muted fw-semibold text-muted d-block fs-7">{{DETAIL_PROFOR.unit.name}}</span>
                                                     </td>
 
                                                     <td>
-                                                        <a href="#"
-                                                            class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">5</a>
+                                                        <a href="#"  onclick="return false"
+                                                            class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">{{DETAIL_PROFOR.cantidad}}</a>
                                                     </td>
 
                                                     <td>
-                                                        <a href="#"
-                                                            class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">20.00
+                                                        <a href="#" onclick="return false"
+                                                            class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">{{DETAIL_PROFOR.price_unit}} PEN
                                                         </a>
-                                                        <span class="text-muted fw-semibold text-muted d-block fs-7">
-                                                            PEN</span>
+<!--                                                         <span class="text-muted fw-semibold text-muted d-block fs-7">
+                                                            </span> -->
                                                     </td>
 
-                                                    <!--                                                     <td class="text-gray-900 fw-bold text-hover-primary fs-6">
-                                                       100
-                                                    </td> -->
-
+                                                    <a href="#" onclick="return false"
+                                                    class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">{{DETAIL_PROFOR.subtotal}} PEN
+                                                </a>
+                                         
                                                     <td>
-                                                        <span class="badge badge-light-success">500.00 PEN</span>
+                                                        <span class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6"  style="text-wrap: nowrap;">{{DETAIL_PROFOR.total}} PEN</span>
                                                     </td>
 
                                                     <td class="text-end">
-                                                        <a href="#"
+<!--                                                         <a href="#"
                                                             class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                                             <i class="ki-duotone ki-switch fs-2"><span
                                                                     class="path1"></span><span class="path2"></span></i>
-                                                        </a>
+                                                        </a> -->
 
-                                                        <a href="#"
+                                                        <a href="#" onclick="return false;" (click)="editProduct(DETAIL_PROFOR,i)"
                                                             class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                                             <i class="ki-duotone ki-pencil fs-2"><span
                                                                     class="path1"></span><span class="path2"></span></i>
                                                         </a>
 
-                                                        <a href="#"
+                                                        <a href="#" onclick="return false;" (click)="deleteProduct(DETAIL_PROFOR,i)"
                                                             class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
                                                             <i class="ki-duotone ki-trash fs-2"><span
                                                                     class="path1"></span><span
@@ -367,11 +436,27 @@
                                                         </a>
                                                     </td>
                                                 </tr>
+                                            </ng-container>
                                             </tbody>
                                             <!--end::Table body-->
                                         </table>
                                         <!--end::Table-->
                                     </div>
+                                </div>
+                            </div>
+                            <div class="separator"></div>
+
+                            <div>
+                                <div class="fw-bold fs-4 align-items-end">
+                                     Total :
+                                    <span id="kt_ecommerce_edit_order_total_price">
+                                       {{TOTAL_PROFORMA}}
+                                    </span>PEN
+                                    <br>
+                                        Impuesto : {{TOTAL_IMPUESTO_PROFORMA}}  PEN
+                                        Deuda: {{DEUDA_PROFORMA}} PEN
+                                        Pagado: {{PAID_OUT_PROFORMA}} PEN
+
                                 </div>
                             </div>
                         </div>

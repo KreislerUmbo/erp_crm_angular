@@ -14,6 +14,11 @@ class ProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+       $units=collect([]);
+       foreach ($this->resource->wallets->groupBy("unit_id") as  $unit_only) {
+        $units->push($unit_only[0]->unit); //unit es nombre de la relacion que est en modelo productWallet
+       }
+       
         return [
             "id" => $this->resource->id,
             "title" => $this->resource->title,
@@ -61,7 +66,7 @@ class ProductResource extends JsonResource
                     "segmentclient_precio_multiple" => $wallet->client_segment ? $wallet->client_segment->id : null,
                 ];
             }),
-            "warehouse" => $this->resource->warehouse->map(function ($warehouse) {
+            "warehouses" => $this->resource->warehouse->map(function ($warehouse) {
                 return [
                     "id" => $warehouse->id,
                     "unit" => $warehouse->unit,
@@ -69,6 +74,8 @@ class ProductResource extends JsonResource
                     "quantity" => $warehouse->stock, //"quantity" viene del front angualar y stock ddeber ser los mismo que model ProducWarehouse
                 ];
             }),
+            
+            "units"=>$units,
         ];
     }
 }

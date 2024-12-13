@@ -14,6 +14,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModalModule, NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { InlineSVGModule } from 'ng-inline-svg-2';
+import { EditProductDetailProformaComponent } from './components/edit-product-detail-proforma/edit-product-detail-proforma.component';
+import { DeleteProductDetailProformaComponent } from './components/delete-product-detail-proforma/delete-product-detail-proforma.component';
 
 
 @NgModule({
@@ -25,7 +27,9 @@ import { InlineSVGModule } from 'ng-inline-svg-2';
     DeleteProformasComponent,
     SearchProductsComponent,
     SearchClientsComponent,
-    AddPagosComponent
+    AddPagosComponent,
+    EditProductDetailProformaComponent,
+    DeleteProductDetailProformaComponent
   ],
   imports: [
     CommonModule,

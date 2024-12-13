@@ -7,7 +7,6 @@ import { ProductWalletsService } from '../service/product-wallets.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditWarehouseProductComponent } from '../warehouse/edit-warehouse-product/edit-warehouse-product.component';
 import { EditWalletPriceProductComponent } from '../wallet/edit-wallet-price-product/edit-wallet-price-product.component';
-import { data } from 'jquery';
 import { DeleteWarehouseProductComponent } from '../warehouse/delete-warehouse-product/delete-warehouse-product.component';
 import { DeleteWalletPriceProductComponent } from '../wallet/delete-wallet-price-product/delete-wallet-price-product.component';
 
@@ -117,7 +116,7 @@ export class EditProductComponent {
       this.alto = this.PRODUCT_SELECTED.alto;
       this.largo = this.PRODUCT_SELECTED.largo;
 
-      this.WAREHOUSES_PRODUCT = this.PRODUCT_SELECTED.warehouse;
+      this.WAREHOUSES_PRODUCT = this.PRODUCT_SELECTED.warehouses;// warehouses viende l collecteion ProductResourse
       this.WALLET_PRODUCTS = this.PRODUCT_SELECTED.wallets;
     });
 

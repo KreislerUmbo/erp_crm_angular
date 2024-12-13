@@ -36,4 +36,22 @@ export class ProformasService {
     return this.http.get(URL, { headers: headers });
   }
 
+  searchProducts(search_products: string) {
+    let LINK = "";
+    if (search_products) {
+      LINK += "&search=" + search_products; // recuerda que el &search viene del  proformController funcion search_products() 
+    }
+
+
+    let URL = URL_SERVICIOS + "/proformas/search-products?p=1" + LINK;
+    let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.authservice.token });
+    return this.http.get(URL, { headers: headers });
+  }
+
+  configAll() {
+    let URL = URL_SERVICIOS + "/proformas/config";
+    let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.authservice.token });
+    return this.http.get(URL, { headers: headers });
+  }
+
 }

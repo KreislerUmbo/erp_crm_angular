@@ -87,6 +87,8 @@ Route::group([
     Route::resource("clients",ClientController::class);
 
     Route::get("/proformas/search-clients",[ProformaController::class,'search_clients']);
+    Route::get("/proformas/search-products",[ProformaController::class,'search_products']);
+    Route::get("/proformas/config",[ClientController::class,'config']);
     Route::resource('proformas',ProformaController ::class);
 
     
