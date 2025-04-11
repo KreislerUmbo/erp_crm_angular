@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laravel
+spec:
+  selector:
+    matchLabels:
+      app: laravel
+  template:
+    metadata:
+      labels:
+        app: laravel
+    spec:
+      containers:
+        - name: laravel
+          image: gcr.io/kubernet-infonerc/laravel-app
+          env:
+            - name: DB_CONNECTION
+              value: mysql
+            - name: DB_HOST
+              value: 127.0.0.1
+            - name: DB_PORT
+              value: "3306"
+            - name: DB_DATABASE
+              value: crm_erp_admin
+            - name: DB_USERNAME
+              value: root
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: root-password
+          ports:
+            - containerPort: 9000
+        - name: cloudsql-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy:1.33.3
+          command:
+            - "/cloud_sql_proxy"
+            - "-instances=kubernet-infonerc:us-central1:laravel-mysql-instance=tcp:3306"
+          securityContext:
+            runAsNonRoot: true
